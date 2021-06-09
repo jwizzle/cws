@@ -27,7 +27,7 @@ Todo (for now):
 ## Installation
 
 ```bash
-$ pip install cws
+$ pip install cws_clisearch
 ```
 
 ## Configuration
