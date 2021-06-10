@@ -5,6 +5,10 @@ from cws.cws import Cws
 from cws.config import cfg
 
 cfg.env = 'dev'
+cfg.tokens = {
+    'youtube': 'x',
+    'google': 'x',
+}
 
 
 @pytest.fixture(scope='module', params=[i for i in Cws.providers])
