@@ -15,6 +15,10 @@ userconfig = {
         }
     }
 }
+tokensample = {
+    'youtube': False,
+    'google': False,
+}
 
 
 class Cfg():
@@ -28,8 +32,7 @@ class Cfg():
         """Construct the config."""
         self.token_filename = '.cws_tokens.yml'
         self.token_file = self.__get_config_file(self.token_filename)
-        if self.token_file:
-            self.tokens = self.__load_token_file()
+        self.tokens = self.__load_token_file()
 
         self.userconfig_filename = '.cws_config.yml'
         self.userconfig_file = self.__get_config_file(self.userconfig_filename)
@@ -37,12 +40,18 @@ class Cfg():
 
     def __load_token_file(self):
         """Parse the config file to a dict."""
+        if not self.token_file:
+            return tokensample
+
         with open(self.token_file, 'r') as file:
             try:
-                return yaml.safe_load(file)
-            except yaml.YAMLError as exc:
-                print(exc)
-                return {}
+                tokens = tokensample.copy()
+                tokens.update(yaml.safe_load(file))
+                return tokens
+            except yaml.YAMLError:
+                return tokensample
+            except TypeError:
+                return tokensample
 
     def __load_userconfig_file(self):
         """Parse the userconfig file."""
