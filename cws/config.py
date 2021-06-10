@@ -19,6 +19,7 @@ userconfig = {
 
 class Cfg():
     """CLI Web search config."""
+
     env = 'prod'
     sample_path = Path(os.path.join(
         os.path.dirname(__file__), 'api_samples'))

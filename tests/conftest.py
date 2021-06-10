@@ -9,7 +9,7 @@ cfg.env = 'dev'
 
 @pytest.fixture(scope='module', params=[i for i in Cws.providers])
 def provider_string(request):
-    """Provides string representation of every provider."""
+    """Provide string representation of every provider."""
     provider = request.param
 
     return provider

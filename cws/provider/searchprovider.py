@@ -7,6 +7,7 @@ from cws.config import cfg
 
 class SearchProvider(ABC):
     """Abstract base for searchproviders."""
+
     search_url = ''
     headers = {}
     params = {}

@@ -11,6 +11,7 @@ class Google(SearchProvider):
 
     Extends the SearchProvider base class to handle Google results.
     """
+
     search_url = "https://google-search3.p.rapidapi.com/api/v1/search/q={}k&num={}"
     name = 'google'
     headers = {

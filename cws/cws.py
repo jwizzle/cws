@@ -8,6 +8,7 @@ class Cws():
 
     High-level interface to interact with CLI web search.
     """
+
     providers = {
         'google': Google,
         'youtube': Youtube,
