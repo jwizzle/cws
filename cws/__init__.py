@@ -11,8 +11,9 @@ from cws.cws import Cws
 
 
 def main():
-    """Main entry point and CLI argument parsing."""
+    """Entry point and CLI argument parsing."""
     signal(SIGPIPE, SIG_DFL)
+
     if not cfg.token_file:
         print('No token config found, none of the engines will work. Bailing out.')
         return False
@@ -45,7 +46,7 @@ def main():
 
     (args, extra_args) = parser.parse_known_args()
 
-    if args.provider not in cfg.tokens:
+    if not cfg.tokens[args.provider]:
         print('No tokens set up for this provider.')
         return False
 

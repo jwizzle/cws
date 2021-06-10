@@ -11,6 +11,7 @@ class Youtube(SearchProvider):
 
     Extends the SearchProvider base class to handle Youtube results.
     """
+
     name = 'youtube'
     search_url = "https://youtube-search-results.p.rapidapi.com/youtube-search/"
     headers = {
