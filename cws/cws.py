@@ -26,7 +26,10 @@ class Cws():
         self.provider = self.providers[provider](number)
         self.search = search
         self.number = number
-        self.searchtext = ' '.join(self.search)
+        if isinstance(search, str):
+            self.searchtext = search
+        else:
+            self.searchtext = ' '.join(self.search)
 
     def start_search(self):
         """Use a given searchprovider to search.

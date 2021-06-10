@@ -53,8 +53,9 @@ class Cfg():
                 custom_conf = userconfig.copy()
                 custom_conf.update(yaml.safe_load(file))
                 return custom_conf
-            except yaml.YAMLError as exc:
-                print(exc)
+            except yaml.YAMLError:
+                return userconfig
+            except TypeError:
                 return userconfig
 
     def __get_config_file(self, name):
