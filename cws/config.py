@@ -44,6 +44,22 @@ class Cfg():
         self.userconfig_file = self.__get_config_file(self.userconfig_filename)
         self.userconfig = self.__load_file(self.userconfig_file, userconfig)
 
+        self.provider_yamls = self.__get_providers()
+
+    def __get_providers(self):
+        """Gather provider yamls from filesystem as a list.
+
+        Todo:
+            * Load providers from user locations
+        """
+        providers = {}
+
+        for node in self.int_provider_path.iterdir():
+            if '.yml' in str(node):
+                providers[str(node.stem)] = str(node)
+
+        return providers
+
     def __load_file(self, conf_file, sample):
         """Parse the config file to a dict.
 

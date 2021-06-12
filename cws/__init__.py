@@ -8,14 +8,17 @@ import subprocess
 from signal import signal, SIGPIPE, SIG_DFL
 from cws.config import cfg
 from cws.cws import Cws
+from cws.provider.searchprovider import SearchProvider
 
 
 def list_providers():
     """List providers."""
     str = ''
 
-    for provider in Cws.providers:
-        provider = Cws.providers[provider]
+    for provider in cfg.provider_yamls:
+        provider = SearchProvider.from_yaml_file(
+            cfg.provider_yamls[provider]
+        )
         str += f"{provider.name}: {provider.token_url}\n"
 
     return str
@@ -39,7 +42,7 @@ def main():
                         help='The search provider to use.',
                         type=str, nargs='?',
                         default=cfg.userconfig['default_provider'],
-                        choices=[i for i in Cws.providers])
+                        choices=[i for i in cfg.provider_yamls])
     parser.add_argument('-n', '--number',
                         help='The number of results to show.',
                         type=int, nargs='?',

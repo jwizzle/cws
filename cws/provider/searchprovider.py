@@ -1,5 +1,6 @@
 """Base search provider."""
 import json
+import yaml
 import requests
 from abc import ABC
 from cws.searchresponse import SearchResponse
@@ -104,8 +105,18 @@ class SearchProvider(ABC):
 
         return SearchResponse(result_list, url_only)
 
-    # TODO Create a from_yaml that takes the cls object and loops through a yaml dict adding attrs
-    # Let providers be part of the config
+    @classmethod
+    def from_yaml_file(cls, file):
+        """Generate a searchprovider from a yaml file location."""
+        new_provider = cls
+
+        with open(file, 'r') as yaml_file:
+            yaml_dict = yaml.safe_load(yaml_file)
+            for yaml_attr, yaml_value in yaml_dict.items():
+                setattr(new_provider, yaml_attr, yaml_value)
+
+        return new_provider
+
     def __iter__(self):
         """Iterate through class and instance attributes."""
         iters = {}

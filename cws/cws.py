@@ -1,6 +1,6 @@
 """CLI web search."""
-from cws.provider.google import Google
-from cws.provider.youtube import Youtube
+from cws.config import cfg
+from cws.provider.searchprovider import SearchProvider
 
 
 class Cws():
@@ -8,12 +8,6 @@ class Cws():
 
     High-level interface to interact with CLI web search.
     """
-
-    # TODO Move this to config and load dynamically from yamls
-    providers = {
-        'google': Google,
-        'youtube': Youtube,
-    }
 
     def __init__(self, url_only, provider, search, number):
         """Construct the CLI web search object.
@@ -25,7 +19,9 @@ class Cws():
             number: Number of search results to return
         """
         self.url_only = url_only
-        self.provider = self.providers[provider](number)
+        self.provider = SearchProvider.from_yaml_file(
+            cfg.provider_yamls[provider]
+        )(number)
         self.search = search
         self.number = number
         if isinstance(search, str):
