@@ -1,4 +1,6 @@
 """Base search provider."""
+import json
+import requests
 from abc import ABC, abstractmethod
 from cws.searchresponse import SearchResponse
 from cws.searchresult import SearchResult
@@ -13,6 +15,11 @@ class SearchProvider(ABC):
     params = {}
     name = ''
     token_url = 'https://rapidapi.com/'
+    param_search_key = False
+    result_key = ''
+    title_key = 'title'
+    description_key = 'description'
+    link_key = 'link'
 
     def __init__(self, number, *args, **kwargs):
         """Construct the searchprovider."""
@@ -22,13 +29,51 @@ class SearchProvider(ABC):
         except KeyError:
             pass
 
-    @abstractmethod
     def fetch_request(self, search):
-        """Abstract method to fetch requests from an api.
+        """Fetch a request from the API.
 
-        Should return a list of search results.
+        Args:
+            search: The search to perform
+
+        Returns:
+            str: An API response as a string
         """
-        return [SearchResult]
+        if cfg.env == 'prod':
+            if self.param_search_key:
+                self.params = {self.param_search_key: search}
+            else:
+                self.search_url = self.search_url.format(
+                    search, self.number
+                )
+
+            return requests.get(
+                        self.search_url,
+                        headers=self.headers,
+                        params=self.params
+                    ).text
+        else:
+            with open(cfg.sample_path / f"{self.name}.json", 'r') as file:
+                return file.read()
+
+    def parse_request(self, js, search):
+        """Generate searchresults from response json.
+
+        Args:
+            js: The json object to parse
+        """
+        itemcount = 0
+        for item in js[self.result_key]:
+            if itemcount >= self.number:
+                continue
+
+            if item['type'] == 'video':
+                itemcount += 1
+                yield SearchResult(
+                    search,
+                    title=item[self.title_key],
+                    description=item[self.description_key],
+                    link=item[self.link_key]
+                )
 
     def search(self, search, url_only):
         """Get results from the provider.
@@ -42,6 +87,13 @@ class SearchProvider(ABC):
         Returns:
             SearchResponse: A SearchResponse object with results.
         """
-        result_list = self.fetch_request(search)
+        request = self.fetch_request(search)
+
+        js = json.loads(request)
+
+        try:
+            result_list = [SearchResult(search, **i) for i in js['results']]
+        except TypeError:
+            result_list = [i for i in self.parse_request(js, search)]
 
         return SearchResponse(result_list, url_only)
