@@ -4,7 +4,7 @@ A CLI web search tool.
 """
 import argparse
 import sys
-import os
+import subprocess
 from signal import signal, SIGPIPE, SIG_DFL
 from cws.config import cfg
 from cws.cws import Cws
@@ -60,7 +60,7 @@ def main():
     results = cws.start_search()
 
     if args.execute:
-        os.system(f"{cws.provider.default_action} {results}")
+        subprocess.Popen([cws.provider.default_action, str(results)], close_fds=True)
     else:
         for line in str(results).splitlines():
             sys.stdout.write(line)
