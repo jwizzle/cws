@@ -1,6 +1,5 @@
 """Test general searchprovider functionality."""
 from cws.cws import Cws
-from cws.searchresult import SearchResult
 
 
 class TestProvider():
@@ -11,5 +10,4 @@ class TestProvider():
         provider = Cws.providers[provider_string](25)
         result = provider.fetch_request('henk')
 
-        assert isinstance(result, list)
-        assert isinstance(result[0], SearchResult)
+        assert isinstance(result, str)
