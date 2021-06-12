@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cws_clisearch",
-    version="0.2.0",
+    version="0.2.1",
     author="j wizzle",
     author_email="info@hossel.net",
     description="A CLI web search tool.",

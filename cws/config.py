@@ -6,6 +6,7 @@ from pathlib import Path
 
 # Default user config
 userconfig = {
+    'default_provider': 'google',
     'provider': {
         'youtube': {
             'default_action': 'mpv'
