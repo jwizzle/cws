@@ -1,7 +1,7 @@
 """Base search provider."""
 import json
 import requests
-from abc import ABC, abstractmethod
+from abc import ABC
 from cws.searchresponse import SearchResponse
 from cws.searchresult import SearchResult
 from cws.config import cfg
