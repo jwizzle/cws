@@ -20,6 +20,8 @@ class SearchProvider(ABC):
     title_key = 'title'
     description_key = 'description'
     link_key = 'link'
+    filter_key = False
+    filter = []
 
     def __init__(self, number, *args, **kwargs):
         """Construct the searchprovider."""
@@ -60,20 +62,26 @@ class SearchProvider(ABC):
 
         Args:
             js: The json object to parse
+
+        Yields:
+            SearchResult: A searchresult object
         """
         itemcount = 0
         for item in js[self.result_key]:
             if itemcount >= self.number:
                 continue
 
-            if item['type'] == 'video':
-                itemcount += 1
-                yield SearchResult(
-                    search,
-                    title=item[self.title_key],
-                    description=item[self.description_key],
-                    link=item[self.link_key]
-                )
+            if self.filter_key and len(self.filter) > 0:
+                if not item[self.filter_key] in self.filter:
+                    continue
+
+            itemcount += 1
+            yield SearchResult(
+                search,
+                title=item[self.title_key],
+                description=item[self.description_key],
+                link=item[self.link_key]
+            )
 
     def search(self, search, url_only):
         """Get results from the provider.

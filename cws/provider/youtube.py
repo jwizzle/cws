@@ -20,3 +20,5 @@ class Youtube(SearchProvider):
     result_key = 'items'
     description_key = 'duration'
     link_key = 'url'
+    filter_key = 'type'
+    filter = ['video']
