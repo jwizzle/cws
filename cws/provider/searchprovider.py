@@ -12,6 +12,7 @@ class SearchProvider(ABC):
     headers = {}
     params = {}
     name = ''
+    token_url = 'https://rapidapi.com/'
 
     def __init__(self, number, *args, **kwargs):
         """Construct the searchprovider."""

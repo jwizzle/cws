@@ -14,6 +14,7 @@ class Youtube(SearchProvider):
 
     name = 'youtube'
     search_url = "https://youtube-search-results.p.rapidapi.com/youtube-search/"
+    token_url = 'https://rapidapi.com/marindelija/api/youtube-search-results/'
     headers = {
         'x-rapidapi-key': cfg.tokens[name],
         'x-rapidapi-host': "youtube-search-results.p.rapidapi.com"
