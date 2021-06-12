@@ -15,7 +15,6 @@ Development is done on irregular intervals, while heavily distracted so expect n
 This is currently a first usable version, that will probably change a lot. Core functionality should stay about the same though.
 
 Todo (for now):
-* Option to list providers and generate cli-docs for them
 * Make it possible to configure a default provider
 * -c flag that shows only 1 result and copies that
 * Interactive mode that allows selection of result and applying an action like copy or open
@@ -45,6 +44,8 @@ Example:
 google: "$token" # Get it from https://rapidapi.com/apigeek/api/google-search3/
 youtube: "$token" # Get it from https://rapidapi.com/marindelija/api/youtube-search-results/
 ```
+
+Use the `--list-providers` option to list all posibilities.
 
 ### .cws_config.yml
 
