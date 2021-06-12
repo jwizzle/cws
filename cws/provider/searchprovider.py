@@ -104,7 +104,8 @@ class SearchProvider(ABC):
 
         return SearchResponse(result_list, url_only)
 
-    # TODO use this to create a dict of a fresh instance of this and merge it with a provider json
+    # TODO Create a from_yaml that takes the cls object and loops through a yaml dict adding attrs
+    # Let providers be part of the config
     def __iter__(self):
         """Iterate through class and instance attributes."""
         iters = {}

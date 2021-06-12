@@ -9,6 +9,7 @@ class Cws():
     High-level interface to interact with CLI web search.
     """
 
+    # TODO Move this to config and load dynamically from yamls
     providers = {
         'google': Google,
         'youtube': Youtube,
@@ -25,8 +26,6 @@ class Cws():
         """
         self.url_only = url_only
         self.provider = self.providers[provider](number)
-        # TODO This, see the todo in searchprovider
-        print(dict(self.provider))
         self.search = search
         self.number = number
         if isinstance(search, str):
