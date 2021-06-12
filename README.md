@@ -15,7 +15,6 @@ Development is done on irregular intervals, while heavily distracted so expect n
 This is currently a first usable version, that will probably change a lot. Core functionality should stay about the same though.
 
 Todo (for now):
-* Write tests
 * Option to list providers and generate cli-docs for them
 * Make it possible to configure a default provider
 * -c flag that shows only 1 result and copies that
