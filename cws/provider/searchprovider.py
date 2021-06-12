@@ -16,7 +16,7 @@ class SearchProvider(ABC):
     name = ''
     token_url = 'https://rapidapi.com/'
     param_search_key = False
-    result_key = ''
+    result_key = 'results'
     title_key = 'title'
     description_key = 'description'
     link_key = 'link'
@@ -99,9 +99,6 @@ class SearchProvider(ABC):
 
         js = json.loads(request)
 
-        try:
-            result_list = [SearchResult(search, **i) for i in js['results']]
-        except TypeError:
-            result_list = [i for i in self.parse_request(js, search)]
+        result_list = [i for i in self.parse_request(js, search)]
 
         return SearchResponse(result_list, url_only)
