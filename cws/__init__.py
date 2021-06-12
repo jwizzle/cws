@@ -38,7 +38,7 @@ def main():
     parser.add_argument('-p', '--provider',
                         help='The search provider to use.',
                         type=str, nargs='?',
-                        default='google',
+                        default=cfg.userconfig['default_provider'],
                         choices=[i for i in Cws.providers])
     parser.add_argument('-n', '--number',
                         help='The number of results to show.',
@@ -72,15 +72,17 @@ def main():
 
     if args.list_providers:
         print(list_providers())
-    else:
-        if not args.search:
-            exit('Search arg is required.')
-        cws = Cws(args.url, args.provider, args.search, args.number)
-        results = cws.start_search()
+        exit(0)
 
-        if args.execute:
-            subprocess.Popen([cws.provider.default_action, str(results)], close_fds=True)
-        else:
-            for line in str(results).splitlines():
-                sys.stdout.write(line)
-            sys.stdout.write('\n')
+    if not args.search:
+        exit('Search arg is required.')
+
+    cws = Cws(args.url, args.provider, args.search, args.number)
+    results = cws.start_search()
+
+    if args.execute:
+        subprocess.Popen([cws.provider.default_action, str(results)], close_fds=True)
+    else:
+        for line in str(results).splitlines():
+            sys.stdout.write(f"{line}\n")
+        sys.stdout.write('\n')
