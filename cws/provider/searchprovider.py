@@ -103,3 +103,18 @@ class SearchProvider(ABC):
         result_list = [i for i in self.parse_request(js, search)]
 
         return SearchResponse(result_list, url_only)
+
+    # TODO use this to create a dict of a fresh instance of this and merge it with a provider json
+    def __iter__(self):
+        """Iterate through class and instance attributes."""
+        iters = {}
+        for x, y in SearchProvider.__dict__.items():
+            # We don't want the functions
+            if x[0] != '_' and not callable(y):
+                iters[x] = y
+
+        # Also add the instance attributes
+        iters.update(self.__dict__)
+
+        for x, y in iters.items():
+            yield x, y

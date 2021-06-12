@@ -25,6 +25,8 @@ class Cws():
         """
         self.url_only = url_only
         self.provider = self.providers[provider](number)
+        # TODO This, see the todo in searchprovider
+        print(dict(self.provider))
         self.search = search
         self.number = number
         if isinstance(search, str):
