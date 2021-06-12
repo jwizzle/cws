@@ -27,6 +27,7 @@ class SearchProvider(ABC):
         """Construct the searchprovider."""
         self.number = number
         try:
+            self.headers['x-rapidapi-key'] = cfg.tokens[self.name]
             self.default_action = cfg.userconfig['provider'][self.name]['default_action']
         except KeyError:
             pass

@@ -1,6 +1,5 @@
 """Google search provider."""
 from cws.provider.searchprovider import SearchProvider
-from cws.config import cfg
 
 
 class Google(SearchProvider):
@@ -13,6 +12,5 @@ class Google(SearchProvider):
     name = 'google'
     token_url = 'https://rapidapi.com/apigeek/api/google-search3/'
     headers = {
-        'x-rapidapi-key': cfg.tokens[name],
         'x-rapidapi-host': "google-search3.p.rapidapi.com"
     }
