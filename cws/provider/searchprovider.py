@@ -2,7 +2,6 @@
 import json
 import yaml
 import requests
-import copy
 from abc import ABC
 from cws.searchresponse import SearchResponse
 from cws.searchresult import SearchResult

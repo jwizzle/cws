@@ -1,5 +1,4 @@
 """Test general searchprovider functionality."""
-from cws.cws import Cws
 from cws.provider.searchprovider import SearchProvider
 from cws.config import cfg
 
