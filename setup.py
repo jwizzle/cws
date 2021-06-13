@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cws_clisearch",
-    version="0.3",
+    version="0.3.1",
     author="j wizzle",
     author_email="info@hossel.net",
     description="A CLI web search tool.",
@@ -15,6 +15,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/jwizzle/cws",
     packages=setuptools.find_packages(),
+    include_package_data=True,
     install_requires=[
         'requests',
         'pyyaml',
