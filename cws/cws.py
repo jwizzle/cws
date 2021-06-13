@@ -20,8 +20,7 @@ class Cws():
         """
         self.url_only = url_only
         self.provider = SearchProvider.from_yaml_file(
-            cfg.provider_yamls[provider]
-        )(number)
+            cfg.provider_yamls[provider])(number)
         self.search = search
         self.number = number
         if isinstance(search, str):
