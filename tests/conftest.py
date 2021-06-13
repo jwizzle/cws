@@ -1,17 +1,12 @@
 """Fixtures and config for pytest."""
 import pytest
 import os
-from cws.cws import Cws
 from cws.config import cfg
 
 cfg.env = 'dev'
-cfg.tokens = {
-    'youtube': 'x',
-    'google': 'x',
-}
 
 
-@pytest.fixture(scope='module', params=[i for i in Cws.providers])
+@pytest.fixture(scope='function', params=[i for i in cfg.provider_yamls])
 def provider_string(request):
     """Provide string representation of every provider."""
     provider = request.param

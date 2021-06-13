@@ -2,6 +2,7 @@
 import json
 import yaml
 import requests
+import copy
 from abc import ABC
 from cws.searchresponse import SearchResponse
 from cws.searchresult import SearchResult
@@ -108,25 +109,15 @@ class SearchProvider(ABC):
     @classmethod
     def from_yaml_file(cls, file):
         """Generate a searchprovider from a yaml file location."""
-        new_provider = cls
-
         with open(file, 'r') as yaml_file:
             yaml_dict = yaml.safe_load(yaml_file)
+            new_provider = type(
+                yaml_dict['name'],
+                SearchProvider.__bases__,
+                dict(SearchProvider.__dict__)
+            )
+
             for yaml_attr, yaml_value in yaml_dict.items():
                 setattr(new_provider, yaml_attr, yaml_value)
 
         return new_provider
-
-    def __iter__(self):
-        """Iterate through class and instance attributes."""
-        iters = {}
-        for x, y in SearchProvider.__dict__.items():
-            # We don't want the functions
-            if x[0] != '_' and not callable(y):
-                iters[x] = y
-
-        # Also add the instance attributes
-        iters.update(self.__dict__)
-
-        for x, y in iters.items():
-            yield x, y
