@@ -26,51 +26,76 @@ class Cfg():
     """CLI Web search config."""
 
     env = 'prod'
+    token_filename = '.cws_tokens.yml'
+    userconfig_filename = '.cws_config.yml'
+
     sample_path = Path(os.path.join(
-        os.path.dirname(__file__), 'api_samples'))
+        os.path.dirname(__file__), 'api_samples'
+    ))
+    int_provider_path = Path(os.path.join(
+        os.path.dirname(__file__), 'provider'
+    ))
 
     def __init__(self):
         """Construct the config."""
-        self.token_filename = '.cws_tokens.yml'
         self.token_file = self.__get_config_file(self.token_filename)
-        self.tokens = self.__load_token_file()
+        self.tokens = self.__load_file(self.token_file, tokensample)
 
-        self.userconfig_filename = '.cws_config.yml'
         self.userconfig_file = self.__get_config_file(self.userconfig_filename)
-        self.userconfig = self.__load_userconfig_file()
+        self.userconfig = self.__load_file(self.userconfig_file, userconfig)
 
-    def __load_token_file(self):
-        """Parse the config file to a dict."""
-        if not self.token_file:
-            return tokensample
+        self.provider_yamls = self.__get_providers()
 
-        with open(self.token_file, 'r') as file:
+    def __get_providers(self):
+        """Gather provider yamls from filesystem as a list.
+
+        Todo:
+            * Load providers from user locations
+        """
+        providers = {}
+
+        for node in self.int_provider_path.iterdir():
+            if '.yml' in str(node):
+                providers[str(node.stem)] = str(node)
+
+        return providers
+
+    def __load_file(self, conf_file, sample):
+        """Parse the config file to a dict.
+
+        By merging it with the defined sample.
+
+        Args:
+            conf_file: The config file Path to load
+            sample: The sample to merge with
+
+        Returns:
+            dict: A parsed config file
+        """
+        if not conf_file:
+            return sample
+
+        with open(conf_file, 'r') as file:
             try:
-                tokens = tokensample.copy()
-                tokens.update(yaml.safe_load(file))
-                return tokens
+                final = sample.copy()
+                final.update(yaml.safe_load(file))
+                return final
             except yaml.YAMLError:
-                return tokensample
+                return sample
             except TypeError:
-                return tokensample
-
-    def __load_userconfig_file(self):
-        """Parse the userconfig file."""
-        if not self.userconfig_file:
-            return userconfig
-
-        with open(self.userconfig_file, 'r') as file:
-            try:
-                custom_conf = userconfig.copy()
-                custom_conf.update(yaml.safe_load(file))
-                return custom_conf
-            except yaml.YAMLError:
-                return userconfig
-            except TypeError:
-                return userconfig
+                return sample
 
     def __get_config_file(self, name):
-        """Try fetching a config file from filesystem."""
+        """Try fetching a config file from filesystem.
+
+        Looks in both XDG home and general HOME.
+
+        Args:
+            name: The name of the file to search for.
+
+        Returns:
+            Path: The path or False
+        """
         home = os.environ.get('HOME')
         if home:
             home_cfg = Path(home) / name

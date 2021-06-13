@@ -1,7 +1,6 @@
 """Test the cws object."""
 import pytest
 from cws.cws import Cws
-from cws.provider.searchprovider import SearchProvider
 from cws.searchresponse import SearchResponse
 
 
@@ -16,7 +15,6 @@ class TestCws():
         """Test the object construction."""
         cws = Cws(False, provider_string, search, 25)
 
-        assert isinstance(cws.provider, SearchProvider)
         assert cws.searchtext == expected
 
     def test_search(self, provider_string):

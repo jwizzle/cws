@@ -1,6 +1,6 @@
 """Test general searchprovider functionality."""
-from cws.cws import Cws
-from cws.searchresult import SearchResult
+from cws.provider.searchprovider import SearchProvider
+from cws.config import cfg
 
 
 class TestProvider():
@@ -8,8 +8,9 @@ class TestProvider():
 
     def test_fetch(self, provider_string):
         """Test if fetching requests works."""
-        provider = Cws.providers[provider_string](25)
+        provider = SearchProvider.from_yaml_file(
+            cfg.provider_yamls[provider_string]
+        )(25)
         result = provider.fetch_request('henk')
 
-        assert isinstance(result, list)
-        assert isinstance(result[0], SearchResult)
+        assert isinstance(result, str)

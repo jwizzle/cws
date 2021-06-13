@@ -16,7 +16,6 @@ This is currently a first usable version, that will probably change a lot. Core 
 
 Todo (for now):
 * -c flag that shows only 1 result and copies that
-* Create a more generic way to define search providers. Like yaml files. So google.py and youtube.py can be replaced by them.
 * Interactive mode that allows selection of result and applying an action like copy or open
 * Add more search providers
 * Possibly add some webscraping fallback for when no api's are configured or free limits are reached
